@@ -31,11 +31,12 @@ launch_k3d() {
 
 launch_argocd() {
     kubectl create namespace argocd
-    kubectl apply -n argocd -f argocd.yaml
+    kubectl apply -n argocd -f `pwd`/argo/argo.yaml
 }
 
 create_ingress_objects() {
-
+    kubectl create namespace nginx
+    kubectl apply -n nginx -f `pwd`/nginx/ingress.yaml
 }
 
 demolish_docker_registry() {
@@ -60,9 +61,12 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     -u|--local-up)
       launch_docker_registry
       launch_k3d
+      launch_argocd
+      create_ingress_objects
       ;;
     -d|--local-down)
       demolish_docker_registry
       demolish_k3d
+
       ;;
 esac; shift; done
