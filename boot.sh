@@ -14,6 +14,7 @@ launch_docker_registry() {
 		--restart always -p 5000:5000 \
 		registry:2
 
+    # add docker registry to network
 	docker network connect $NETWORK registry.localhost
 }
 
@@ -26,6 +27,14 @@ launch_k3d() {
 		-p 443:443@loadbalancer \
 		--servers 1 \
 		--agents 3
+}
+
+launch_argocd() {
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f argocd.yaml
+}
+
+create_ingress_objects() {
 
 }
 
