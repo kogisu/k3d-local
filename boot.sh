@@ -10,11 +10,11 @@ launch_docker_registry() {
 	# run local docker registry instance
 	docker container run -d \
 		--name registry.localhost \
-      -v local_host:/var/lib/registry \
-      --restart always -p 5000:5000 \
-      registry:2
+		-v local_host:/var/lib/registry \
+		--restart always -p 5000:5000 \
+		registry:2
 
-    docker network connect $NETWORK registry.localhost
+	docker network connect $NETWORK registry.localhost
 }
 
 launch_k3d() {
@@ -30,9 +30,9 @@ launch_k3d() {
 }
 
 demolish_docker_registry() {
-  docker stop registry.localhost
-  docker rm registry.localhost
-  docker volume rm local_registry
+    docker stop registry.localhost
+    docker rm registry.localhost
+    docker volume rm local_registry
 }
 demolish_k3d() {
 	k3d cluster delete $APP_NAME
@@ -46,6 +46,7 @@ Flags:
   -u --local-up     Bring up local cluster
   -d --local-down   Bring down local cluster
 "
+
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     -u|--local-up)
       launch_docker_registry
