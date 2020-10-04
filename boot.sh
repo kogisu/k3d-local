@@ -65,7 +65,6 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
       launch_docker_registry
       launch_k3d
       launch_argocd
-      create_ingress_objects
       ;;
     -d|--local-down)
       demolish_docker_registry
