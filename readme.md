@@ -76,10 +76,10 @@ deployment.apps/nginx created
 service/nginx created
 
 ```
-The above creates the k3d cluster, a private docker registry to pull images from for your cluster, and argocd resources for gitops deployments.  k3d defaults with a traefik based loadbalancer.  This will be removed from the default deployment and replaced with the argocd loadbalancer and will be listening on ports `80` and `443`.  The loadbalancer will be port-forwarded to `localhost` using the `-p` flag in the `k3d cluster create` command.
+The above creates the k3d cluster, a private docker registry to pull images from for your cluster, and argocd resources for gitops deployments.  k3d defaults with a traefik based loadbalancer.  This will be removed from the default deployment and replaced with the argocd loadbalancer, which will be listening on ports `80` and `443`.  The loadbalancer will be port-forwarded to `localhost` using the `-p` flag in the `k3d cluster create` command.
 
 ## ArgoCD
-ArgoCD is a gitops tool for making git the source of truth for kubernetes deployments.  To deploy application in kubernetes through ArgoCD, an `application.yaml` file is created and applied to the cluster, which points to a git repo.  An example application is provided at [guestbook](https://gitlab.com/kogisu/guestbook).  
+ArgoCD is a gitops tool for making git the source of truth for kubernetes deployments.  To deploy applications in kubernetes through ArgoCD, an `application.yaml` file is created and applied to the cluster, which points to a git repo.  An example application is provided at [guestbook](https://gitlab.com/kogisu/guestbook).  
 
 After creating the k3d cluster using the bootstrap cli, create a git repo (using github, gitlab) and add an `application.yaml` file as well as resources to deploy to kubernetes.  In the `guestbook` example, two resources are deployed: a `deployment` and a `service`.  
 
