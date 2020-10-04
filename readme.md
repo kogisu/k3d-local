@@ -92,4 +92,6 @@ password: <run following command>
 $ kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2
 ```
 The password defaults to the pod name of the argocd server.
- 
+
+## Sync Changes
+ArgoCD automatically syncs changes to your cluster by pinging the git repository (and checks the `HEAD` commit).  After comming new changes to your repository, ArgoCD will sync the changes on your behalf.  To see your changes, make a commit to the repo tied to your `application.yaml` file.  
