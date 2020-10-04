@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export APP_NAME=bigbang
+export APP_NAME=knockout
 export NETWORK=k3d-${APP_NAME}
 
 launch_docker_registry() {
@@ -25,6 +25,7 @@ launch_k3d() {
 		-v `pwd`/registries.yaml:/etc/rancher/k3s/registries.yaml \
 		-p 80:80@loadbalancer \
 		-p 443:443@loadbalancer \
+		--k3s-server-arg '--no-deploy=traefik' \
 		--servers 1 \
 		--agents 3
 }
@@ -32,6 +33,8 @@ launch_k3d() {
 launch_argocd() {
     kubectl create namespace argocd
     kubectl apply -n argocd -f `pwd`/argo/argo.yaml
+    kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
 }
 
 create_ingress_objects() {
@@ -62,7 +65,6 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
       launch_docker_registry
       launch_k3d
       launch_argocd
-      create_ingress_objects
       ;;
     -d|--local-down)
       demolish_docker_registry
